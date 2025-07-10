@@ -5,7 +5,8 @@ class TimeInputs extends StatelessWidget {
   final TextEditingController hoursController;
   final TextEditingController minutesController;
   final TextEditingController secondsController;
-   const TimeInputs({
+  
+  const TimeInputs({
     super.key,
     required this.hoursController,
     required this.minutesController,
@@ -19,17 +20,20 @@ class TimeInputs extends StatelessWidget {
         Expanded(
           child: TextFormField(
             controller: hoursController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Hours',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              filled: true,
+              fillColor: Theme.of(context).colorScheme.surfaceVariant,
+              counterText: '',
             ),
             keyboardType: TextInputType.number,
-            maxLength: 100,
+            maxLength: 3,
             inputFormatters: [
-        
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(3), // Limits to 2 digits
-        ],
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Required';
@@ -41,52 +45,60 @@ class TimeInputs extends StatelessWidget {
             },
           ),
         ),
-        const SizedBox(width: 8.0),
+        const SizedBox(width: 12.0),
         Expanded(
           child: TextFormField(
             controller: minutesController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Minutes',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              filled: true,
+              fillColor: Theme.of(context).colorScheme.surfaceVariant,
+              counterText: '',
             ),
             keyboardType: TextInputType.number,
-            maxLength: 60,
+            maxLength: 2,
             inputFormatters: [
-        
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(2), // Limits to 2 digits
-        ],
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Required';
               }
-              if (int.tryParse(value) == null) {
+              final minutes = int.tryParse(value);
+              if (minutes == null || minutes >= 60) {
                 return 'Invalid';
               }
               return null;
             },
           ),
         ),
-        const SizedBox(width: 8.0),
+        const SizedBox(width: 12.0),
         Expanded(
           child: TextFormField(
             controller: secondsController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Seconds',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              filled: true,
+              fillColor: Theme.of(context).colorScheme.surfaceVariant,
+              counterText: '',
             ),
             keyboardType: TextInputType.number,
-            maxLength: 60,
+            maxLength: 2,
             inputFormatters: [
-        
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(2), // Limits to 2 digits
-        ],
+              FilteringTextInputFormatter.digitsOnly,
+            ],
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Required';
               }
-              if (int.tryParse(value) == null) {
+              final seconds = int.tryParse(value);
+              if (seconds == null || seconds >= 60) {
                 return 'Invalid';
               }
               return null;

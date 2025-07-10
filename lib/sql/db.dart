@@ -67,9 +67,9 @@ class SqlDb {
     return response;
   }
 
-  Future<int> insertData(String sql) async {
+  Future<int> insertData(String sql, {required List<Object?> values}) async {
     Database? mydb = await database;
-    int response = await mydb!.rawInsert(sql);
+    int response = await mydb!.rawInsert(sql, values);
     return response;
   }
 

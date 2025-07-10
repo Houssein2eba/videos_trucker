@@ -13,8 +13,10 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        
         title: const Text('Home Page'),
+        backgroundColor: AppColors.primaryColor,
+        centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

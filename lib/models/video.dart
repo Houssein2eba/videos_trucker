@@ -28,6 +28,23 @@ class Video {
     this.finishedDate
   });
 
-  
+  Video.fromMap(Map<String, dynamic> map)
+      : id = map['id'].toString(),
+        title = map['title'],
+        currentHours = map['currentHours'],
+        currentMinutes = map['currentMinutes'],
+        currentSeconds = map['currentSeconds'],
+        totalHours = map['totalHours'],
+        totalMinutes = map['totalMinutes'],
+        totalSeconds = map['totalSeconds'],
+        isCurrent = map['isCurrent'],
+        isCompleted = map['isCompleted'],
+        uploadDate = DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+        finishedDate = map['updatedAt'] != null
+            ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'])
+            : null;
+
+
+
 }
 
