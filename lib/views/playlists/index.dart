@@ -21,7 +21,7 @@ class PlaylistsHome extends GetView<GetPlayListsController> {
       ),
       body: GetBuilder<GetPlayListsController>(
         builder: (controller) {
-          return controller.playList.isEmpty?NoPlayLists(onPressed: () => Get.toNamed(Routes.createPlaylist)) : controller.isLoading ? const Center(child: LoadinIndicator()) : GridView.builder(
+          return  controller.isLoading ? const Center(child: LoadinIndicator()) : controller.playList.isEmpty?NoPlayLists(onPressed: () => Get.toNamed(Routes.createPlaylist)) : GridView.builder(
             padding: const EdgeInsets.all(16),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -29,7 +29,7 @@ class PlaylistsHome extends GetView<GetPlayListsController> {
               mainAxisSpacing: 16,
               childAspectRatio: 1,
             ),
-            itemCount: controller.playList.length, // Replace with actual playlist count
+            itemCount: controller.playList.length, 
             itemBuilder: (context, index) {
               return Card(
                 elevation: 4,
@@ -50,12 +50,28 @@ class PlaylistsHome extends GetView<GetPlayListsController> {
                         color: AppColors.primaryColor,
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        controller.playList[index].title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              controller.playList[index].title,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              controller.playList[index].videoCount.toString(),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -18,7 +18,7 @@ class GetPlayListsController extends GetxController{
     update();
 
     List<Map<String, dynamic>> response = await SqlDb().readData(
-      "SELECT * FROM playlists ORDER BY createdAt DESC"
+      "SELECT *,COUNT(videoId) as videoCount FROM playlists ORDER BY createdAt DESC"
     );
     playList=response.map((playlist) => PlayList.fromMap(playlist)).toList();
     print("first playlist: ${playList.firstOrNull?.title ?? 'No playlists found'}");
