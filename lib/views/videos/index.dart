@@ -50,9 +50,12 @@ class VideosHome extends GetView<GetVideosController> {
             itemBuilder: (context, index) {
               final video = controller.videos[index];
               final progress = controller.calculateProgress(video);
-              return ListVideosCard(background: video.isCurrent==1 ? AppColors.splashColor : AppColors.backgroundColor,progress: progress,video: video,onPressed: (){
-                controller.markVideoAsWatched(video: video);
-              },);
+              return InkWell(
+                onTap: () => Get.toNamed(Routes.editVideo, arguments: {'video': video}),
+                child: ListVideosCard(background: video.isCurrent==1 ? AppColors.splashColor : AppColors.backgroundColor,progress: progress,video: video,onPressed: (){
+                  controller.markVideoAsWatched(video: video);
+                },),
+              );
             },
           );
         },

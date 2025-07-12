@@ -1,17 +1,17 @@
 
 class Video {
-  final String id;
-  final String title;
-  final int currentHours;
-  final int currentMinutes;
-  final int currentSeconds;
-  final int totalHours;
-  final int totalMinutes;
-  final int totalSeconds;
+   String id;
+   String title;
+   int currentHours;
+   int currentMinutes;
+   int currentSeconds;
+   int totalHours;
+   int totalMinutes;
+   int totalSeconds;
    int isCurrent;
-  final int isCompleted;
-  final DateTime uploadDate;
-  final DateTime? finishedDate;
+   int isCompleted;
+   DateTime uploadDate;
+   DateTime? finishedDate;
 
   Video({
     required this.id,
