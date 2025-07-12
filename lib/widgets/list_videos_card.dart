@@ -8,6 +8,8 @@ class ListVideosCard extends StatelessWidget {
   final Video video;
   final void Function()? onPressed;
   final void Function(DismissDirection)? onDismissed;
+  final void Function()? onMarkWatched;
+  final void Function()? onTap; // New onTap callback
   final double progress;
   final Color? background;
   const ListVideosCard({
@@ -17,6 +19,8 @@ class ListVideosCard extends StatelessWidget {
     required this.onPressed,
     required this.background,
     required this.onDismissed,
+    this.onMarkWatched,
+    this.onTap, // Initialize the new callback
   });
 
   @override
@@ -46,100 +50,81 @@ class ListVideosCard extends StatelessWidget {
         elevation: 2,
         color: background ?? Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Stack(
-          children: [
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              leading: IconButton(
-                onPressed: onPressed,
-                icon: video.isCurrent == 1
-                    ? const Icon(Icons.play_circle)
-                    : const Icon(Icons.stop_circle),
-              ),
-              title: Text(
-                video.title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 5,
-                        child: LinearProgressIndicator(
-                          value: progress,
-                          minHeight: 8,
-                          backgroundColor: Colors.grey[200],
+        child: InkWell( // Use InkWell for tap effect
+          onTap: onTap, // Assign the new onTap callback
+          child: ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
+            leading: IconButton(
+              onPressed: onPressed,
+              icon: video.isCurrent == 1
+                  ? const Icon(Icons.play_circle)
+                  : const Icon(Icons.stop_circle),
+            ),
+            title: Text(
+              video.title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        minHeight: 8,
+                        backgroundColor: Colors.grey[200],
+                        color: getProgressColor(progress),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      flex: 1, // 1 part of available space
+                      child: Text(
+                        '${(progress * 100).toStringAsFixed(1)}%',
+                        style: TextStyle(
                           color: getProgressColor(progress),
-                          borderRadius: BorderRadius.circular(4),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        flex: 1, // 1 part of available space
-                        child: Text(
-                          '${(progress * 100).toStringAsFixed(1)}%',
-                          style: TextStyle(
-                            color: getProgressColor(progress),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  // Changed to Column for small screens
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      if (constraints.maxWidth > 400) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: buildTimeTexts(context, video),
-                        );
-                      } else {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: buildTimeTexts(context, video),
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
-              trailing: progress * 100 == 100
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                // Changed to Column for small screens
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    if (constraints.maxWidth > 400) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: buildTimeTexts(context, video),
+                      );
+                    } else {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: buildTimeTexts(context, video),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
+            trailing: IconButton( // Changed to IconButton
+              onPressed: onMarkWatched, // Use the new callback
+              icon: video.isCompleted == 1
                   ? const Icon(Icons.check_circle, color: Colors.green)
-                  : const Icon(Icons.play_circle_outline,
-                      color: Color.fromARGB(255, 235, 35, 35)),
+                  : const Icon(Icons.circle_outlined, color: Colors.grey),
             ),
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: video.isCurrent == 1 ? Colors.green : Colors.red,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  video.isCurrent == 1 ? 'Current' : 'Not Current',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

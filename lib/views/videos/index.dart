@@ -56,10 +56,18 @@ class VideosHome extends GetView<GetVideosController> {
                 progress: progress,
                 video: video,
                 onPressed: () {
+                  controller.toggleIsCurrent(video: video);
+                },
+                onMarkWatched: () {
                   controller.markVideoAsWatched(video: video);
                 },
                 onDismissed: (direction) {
                   controller.deleteVideo(video);
+                },
+                onTap: () {
+                  Get.toNamed(Routes.editVideo, arguments: {
+                    'video': video,
+                  });
                 },
               );
             },

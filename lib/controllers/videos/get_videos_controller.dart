@@ -28,13 +28,27 @@ class GetVideosController extends GetxController {
   }
 
   Future<void> markVideoAsWatched({required Video video}) async {
-    
-    String sql=video.isCurrent == 1? 'UPDATE videos SET isCurrent=0 WHERE id=?': 'UPDATE videos SET isCurrent=1 WHERE id=?';
-    
+    final int currentTotalSeconds = video.currentHours * 3600 +
+          video.currentMinutes * 60 +
+          video.currentSeconds;
+      final int videoTotalSeconds = video.totalHours * 3600 +
+          video.totalMinutes * 60 +
+          video.totalSeconds;
 
-    List<Object?> values = [video.id];
+      if (currentTotalSeconds == videoTotalSeconds) {
+        Get.snackbar(
+          'Already Watched',
+          'This video is already marked as watched.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
+    final bool newWatchedStatus = video.isCompleted == 0 ? true : false;
+    final int response = await SqlDb().updateVideoCompletionStatus(
+      video.id,
+      newWatchedStatus ? 1 : 0,
+    );
 
-    final int response = await SqlDb().updateData(sql, values: values);
     if (response <= 0) {
       Get.snackbar(
         'Error',
@@ -43,18 +57,48 @@ class GetVideosController extends GetxController {
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
-      
-      update();
       return;
     }
-    videos =
-        videos.map((vid) {
-          if (vid.id == video.id) {
-            vid.isCurrent = 1 - vid.isCurrent; 
-          }
-          return vid;
-        }).toList();
-    
+
+    videos = videos.map((vid) {
+      if (vid.id == video.id) {
+        return vid.copyWith(isCompleted: newWatchedStatus ? 1 : 0);
+      }
+      return vid;
+    }).toList();
+
+    update();
+  }
+
+  Future<void> toggleIsCurrent({required Video video}) async {
+    final bool newIsCurrentStatus = video.isCurrent == 0 ? true : false;
+    final String sql = 'UPDATE videos SET isCurrent = ?, updatedAt = ? WHERE id = ?';
+    final List<Object?> values = [
+      newIsCurrentStatus ? 1 : 0,
+      DateTime.now().millisecondsSinceEpoch,
+      video.id,
+    ];
+
+    final int response = await SqlDb().updateData(sql, values: values);
+
+    if (response <= 0) {
+      Get.snackbar(
+        'Error',
+        'Failed to update current video status',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    videos = videos.map((vid) {
+      if (vid.id == video.id) {
+        return vid.copyWith(isCurrent: newIsCurrentStatus ? 1 : 0);
+      }
+      return vid;
+    }).toList();
+
     update();
   }
 

@@ -1,17 +1,17 @@
 
 class Video {
-   int id;
-   String title;
-   int currentHours;
-   int currentMinutes;
-   int currentSeconds;
-   int totalHours;
-   int totalMinutes;
-   int totalSeconds;
-   int isCurrent;
-   int isCompleted;
-   DateTime uploadDate;
-   DateTime? finishedDate;
+  int id;
+  String title;
+  int currentHours;
+  int currentMinutes;
+  int currentSeconds;
+  int totalHours;
+  int totalMinutes;
+  int totalSeconds;
+  int isCurrent;
+  int isCompleted;
+  DateTime uploadDate;
+  DateTime? finishedDate;
 
   Video({
     required this.id,
@@ -25,7 +25,7 @@ class Video {
     required this.isCurrent,
     required this.isCompleted,
     required this.uploadDate,
-    this.finishedDate
+    this.finishedDate,
   });
 
   Video.fromMap(Map<String, dynamic> map)
@@ -44,7 +44,34 @@ class Video {
             ? DateTime.fromMillisecondsSinceEpoch(map['updatedAt'])
             : null;
 
-
-
+  Video copyWith({
+    int? id,
+    String? title,
+    int? currentHours,
+    int? currentMinutes,
+    int? currentSeconds,
+    int? totalHours,
+    int? totalMinutes,
+    int? totalSeconds,
+    int? isCurrent,
+    int? isCompleted,
+    DateTime? uploadDate,
+    DateTime? finishedDate,
+  }) {
+    return Video(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      currentHours: currentHours ?? this.currentHours,
+      currentMinutes: currentMinutes ?? this.currentMinutes,
+      currentSeconds: currentSeconds ?? this.currentSeconds,
+      totalHours: totalHours ?? this.totalHours,
+      totalMinutes: totalMinutes ?? this.totalMinutes,
+      totalSeconds: totalSeconds ?? this.totalSeconds,
+      isCurrent: isCurrent ?? this.isCurrent,
+      isCompleted: isCompleted ?? this.isCompleted,
+      uploadDate: uploadDate ?? this.uploadDate,
+      finishedDate: finishedDate ?? this.finishedDate,
+    );
+  }
 }
 

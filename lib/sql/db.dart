@@ -85,6 +85,17 @@ class SqlDb {
     return response;
   }
 
+  Future<int> updateVideoCompletionStatus(int videoId, int isCompleted) async {
+    Database? mydb = await database;
+    int response = await mydb!.update(
+      'videos',
+      {'isCompleted': isCompleted, 'updatedAt': DateTime.now().millisecondsSinceEpoch},
+      where: 'id = ?',
+      whereArgs: [videoId],
+    );
+    return response;
+  }
+
   // Add this method to close the database when done
   Future<void> close() async {
     if (_db != null) {

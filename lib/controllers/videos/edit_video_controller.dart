@@ -53,12 +53,21 @@ class EditVideoController extends GetxController {
           );
           return;
         }
-        final String sql = '''
+        final String sql = currentTotalSeconds < videoTotalSeconds  ? '''
           UPDATE videos 
           SET title = ?, 
               currentHours = ?, 
               currentMinutes = ?, 
               currentSeconds = ?, 
+              updatedAt = strftime('%s', 'now') 
+          WHERE id = ?
+        ''' : '''
+          UPDATE videos 
+          SET title = ?, 
+              currentHours = ?, 
+              currentMinutes = ?, 
+              currentSeconds = ?, 
+              isCompleted = 1, 
               updatedAt = strftime('%s', 'now') 
           WHERE id = ?
         ''';
