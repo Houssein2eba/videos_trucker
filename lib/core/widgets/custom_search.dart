@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:videos_trucker/core/constant/colors_class.dart';
 
 class CustomSearch extends StatelessWidget {

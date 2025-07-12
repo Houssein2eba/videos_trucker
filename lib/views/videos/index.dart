@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:videos_trucker/controllers/videos/get_videos_controller.dart';
 import 'package:videos_trucker/core/constant/colors_class.dart';
-import 'package:videos_trucker/core/functions/format_time.dart';
 import 'package:videos_trucker/core/widgets/loadin_indicator.dart';
 import 'package:videos_trucker/routes.dart';
 import 'package:videos_trucker/widgets/list_videos_card.dart';

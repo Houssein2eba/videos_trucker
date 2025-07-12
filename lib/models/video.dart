@@ -1,6 +1,6 @@
 
 class Video {
-   String id;
+   int id;
    String title;
    int currentHours;
    int currentMinutes;
@@ -29,7 +29,7 @@ class Video {
   });
 
   Video.fromMap(Map<String, dynamic> map)
-      : id = map['id'].toString(),
+      : id = map['id'],
         title = map['title'],
         currentHours = map['currentHours'],
         currentMinutes = map['currentMinutes'],

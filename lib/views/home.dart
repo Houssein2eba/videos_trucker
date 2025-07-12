@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
           Expanded(
             child: MainCard(
               onTap: () {
-                // Navigate to playlists or perform an action
+                Get.toNamed(Routes.playlistsHome);
               },
               title: 'Playlists',
               icon: Icons.playlist_play,
