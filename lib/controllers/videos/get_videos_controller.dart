@@ -71,6 +71,21 @@ class GetVideosController extends GetxController {
   }
 
   Future<void> toggleIsCurrent({required Video video}) async {
+    final int currentTotalSeconds = video.currentHours * 3600 +
+          video.currentMinutes * 60 +
+          video.currentSeconds;
+      final int videoTotalSeconds = video.totalHours * 3600 +
+          video.totalMinutes * 60 +
+          video.totalSeconds;
+
+      if (currentTotalSeconds == videoTotalSeconds) {
+        Get.snackbar(
+          'Already Watched',
+          'This video is not is completed.',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        return;
+      }
     final bool newIsCurrentStatus = video.isCurrent == 0 ? true : false;
     final String sql = 'UPDATE videos SET isCurrent = ?, updatedAt = ? WHERE id = ?';
     final List<Object?> values = [
