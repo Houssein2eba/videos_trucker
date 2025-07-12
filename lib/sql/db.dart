@@ -79,9 +79,9 @@ class SqlDb {
     return response;
   }
 
-  Future<int> updateData(String sql) async {
+  Future<int> updateData(String sql,{required List<Object?> values}) async {
     Database? mydb = await database;
-    int response = await mydb!.rawUpdate(sql);
+    int response = await mydb!.rawUpdate(sql,values );
     return response;
   }
 

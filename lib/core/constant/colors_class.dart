@@ -9,6 +9,7 @@ class AppColors{
   static Color backgroundColor = const Color(0xFFF9F9F9); // Light gray
   static Color textColor = const Color(0xFF333333); // Dark gray
   static Color lightTextColor = const Color(0xFF777777); // Light gray
+  static Color splashColor = const Color.fromARGB(255, 57, 175, 230); // Red
 
   static Color greenColor = const Color(0xFF4CAF50);// Green
   static const purpleColor = Color.fromRGBO(156, 39, 176, 1);

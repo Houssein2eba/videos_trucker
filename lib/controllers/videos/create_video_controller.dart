@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:videos_trucker/controllers/videos/get_videos_controller.dart';
+import 'package:videos_trucker/routes.dart';
 import 'package:videos_trucker/sql/db.dart';
 
 class CreateVideoController extends GetxController {
@@ -90,6 +92,8 @@ class CreateVideoController extends GetxController {
         totalHoursController.clear();
         totalMinutesController.clear();
         totalSecondsController.clear();
+        Get.find<GetVideosController>().fetchVideos();
+         Get.until((route) => route.settings.name == Routes.videosHome);
       } else {
         Get.snackbar('Error', 'Failed to create video.');
       }

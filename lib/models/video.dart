@@ -8,7 +8,7 @@ class Video {
   final int totalHours;
   final int totalMinutes;
   final int totalSeconds;
-  final int isCurrent;
+   int isCurrent;
   final int isCompleted;
   final DateTime uploadDate;
   final DateTime? finishedDate;
