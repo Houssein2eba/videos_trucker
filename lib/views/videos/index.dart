@@ -50,40 +50,23 @@ class VideosHome extends GetView<GetVideosController> {
             itemBuilder: (context, index) {
               final video = controller.videos[index];
               final progress = controller.calculateProgress(video);
-              return InkWell(
-                onTap: () => Get.toNamed(Routes.editVideo, arguments: {'video': video}),
-                child: ListVideosCard(background: video.isCurrent==1 ? AppColors.splashColor : AppColors.backgroundColor,progress: progress,video: video,onPressed: (){
+              return ListVideosCard(
+                background: video.isCurrent == 1
+                    ? AppColors.splashColor
+                    : AppColors.backgroundColor,
+                progress: progress,
+                video: video,
+                onPressed: () {
                   controller.markVideoAsWatched(video: video);
-                },),
+                },
+                onDismissed: (direction) {
+                  controller.deleteVideo(video);
+                },
               );
             },
           );
         },
       ),
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, String videoId) {
-    showDialog(
-      context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text('Delete Video'),
-            content: const Text('Are you sure you want to delete this video?'),
-            actions: [
-              TextButton(
-                onPressed: () => Get.back(),
-                child: const Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
-          ),
     );
   }
 }

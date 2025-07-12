@@ -58,6 +58,34 @@ class GetVideosController extends GetxController {
     update();
   }
 
+  Future<void> deleteVideo(Video video) async {
+    final String sql = 'DELETE FROM videos WHERE id = ?';
+    final List<Object?> values = [video.id];
+    
+
+    final int response = await SqlDb().deleteData(sql, values: values);
+
+    if (response > 0) {
+      videos.removeWhere((vid) => vid.id == video.id);
+      Get.snackbar(
+        'Success',
+        'Video deleted successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
+      update();
+    } else {
+      Get.snackbar(
+        'Error',
+        'Failed to delete video',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
   double calculateProgress(Video video) {
     try {
       final current =

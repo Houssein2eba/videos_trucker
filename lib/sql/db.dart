@@ -73,9 +73,9 @@ class SqlDb {
     return response;
   }
 
-  Future<int> deleteData(String sql) async {
+  Future<int> deleteData(String sql,{required List<Object?> values}) async {
     Database? mydb = await database;
-    int response = await mydb!.rawDelete(sql);
+    int response = await mydb!.rawDelete(sql, values);
     return response;
   }
 
