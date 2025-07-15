@@ -33,4 +33,26 @@ class PlayList {
           playlist['updatedAt'] != null
               ? DateTime.fromMillisecondsSinceEpoch(playlist['updatedAt'])
               : null;
+
+  PlayList copyWith({
+    int? id,
+    String? title,
+    int? isCurrent,
+    int? videoCount,
+    int? isCompleted,
+    List<Video>? videos,
+    DateTime? uploadDate,
+    DateTime? finishedDate,
+  }) {
+    return PlayList(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      isCurrent: isCurrent ?? this.isCurrent,
+      videoCount: videoCount ?? this.videoCount,
+      isCompleted: isCompleted ?? this.isCompleted,
+      videos: videos ?? this.videos,
+      uploadDate: uploadDate ?? this.uploadDate,
+      finishedDate: finishedDate ?? this.finishedDate,
+    );
+  }
 }

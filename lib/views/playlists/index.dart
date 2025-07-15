@@ -6,6 +6,7 @@ import 'package:videos_trucker/core/constant/colors_class.dart';
 import 'package:videos_trucker/core/widgets/loadin_indicator.dart';
 import 'package:videos_trucker/routes.dart';
 import 'package:videos_trucker/widgets/no_play_lists.dart';
+import 'package:videos_trucker/widgets/list_playlists_card.dart';
 
 class PlaylistsHome extends GetView<GetPlayListsController> {
   const PlaylistsHome({super.key});
@@ -31,51 +32,18 @@ class PlaylistsHome extends GetView<GetPlayListsController> {
             ),
             itemCount: controller.playList.length, 
             itemBuilder: (context, index) {
-              return Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    // Handle playlist tap
-                  },
-                  borderRadius: BorderRadius.circular(16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                       Icon(
-                        Icons.playlist_play,
-                        size: 50,
-                        color: AppColors.primaryColor,
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              controller.playList[index].title,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              controller.playList[index].videoCount.toString(),
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              final playlist = controller.playList[index];
+              return ListPlaylistsCard(
+                playlist: playlist,
+                onTap: () {
+                  Get.toNamed(Routes.singlePlayListVideo, arguments: {'playListId': playlist.id});
+                },
+                onMarkWatched: () {
+                  controller.markPlaylistAsWatched(playlist: playlist);
+                },
+                onDismissed: (direction) {
+                  controller.deletePlaylist(playlist);
+                },
               );
             },
           );

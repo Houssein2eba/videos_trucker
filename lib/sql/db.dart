@@ -38,8 +38,10 @@ class SqlDb {
         totalSeconds INTEGER,
         isCurrent INTEGER DEFAULT 0,
         isCompleted INTEGER DEFAULT 0,
+        playListId INTEGER DEFAULT 0,
         createdAt INTEGER DEFAULT (strftime('%s', 'now')),
-        updatedAt INTEGER DEFAULT (strftime('%s', 'now'))
+        updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
+        FOREIGN KEY (playListId) REFERENCES playlists(id) ON DELETE CASCADE
       )
     ''');
     
@@ -47,12 +49,12 @@ class SqlDb {
       CREATE TABLE IF NOT EXISTS playlists (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
-        videoId INTEGER,
+          syntax error in db.dart
         isCurrent INTEGER DEFAULT 0,
         isCompleted INTEGER DEFAULT 0,
         createdAt INTEGER DEFAULT (strftime('%s', 'now')),
         updatedAt INTEGER DEFAULT (strftime('%s', 'now')),
-        FOREIGN KEY (videoId) REFERENCES videos(id) ON DELETE CASCADE
+      
       )
     ''');
   }
@@ -61,9 +63,9 @@ class SqlDb {
     // Add upgrade logic here if needed
   }
 
-  Future<List<Map<String, dynamic>>> readData(String sql) async {
+  Future<List<Map<String, dynamic>>> readData(String sql, {List<Object?>? values = const []}) async {
     Database? mydb = await database;
-    List<Map<String, dynamic>> response = await mydb!.rawQuery(sql);
+    List<Map<String, dynamic>> response = await mydb!.rawQuery(sql, values);
     return response;
   }
 
@@ -92,6 +94,17 @@ class SqlDb {
       {'isCompleted': isCompleted, 'updatedAt': DateTime.now().millisecondsSinceEpoch},
       where: 'id = ?',
       whereArgs: [videoId],
+    );
+    return response;
+  }
+
+  Future<int> updatePlaylistCompletionStatus(int playlistId, int isCompleted) async {
+    Database? mydb = await database;
+    int response = await mydb!.update(
+      'playlists',
+      {'isCompleted': isCompleted, 'updatedAt': DateTime.now().millisecondsSinceEpoch},
+      where: 'id = ?',
+      whereArgs: [playlistId],
     );
     return response;
   }

@@ -4,13 +4,15 @@ import 'package:videos_trucker/sql/db.dart';
 
 import 'package:get/get.dart';
 
-class GetVideosController extends GetxController {
+class GetPlayListVidoesController extends GetxController {
   List<Video> videos = <Video>[];
+  late int playListId;
   bool isLoading = false;
 
   @override
   void onInit() {
     super.onInit();
+    playListId = Get.arguments['playListId'] as int;
     fetchVideos();
   }
 
@@ -19,10 +21,11 @@ class GetVideosController extends GetxController {
     update();
     final String sql = '''
       SELECT * FROM videos
-      WHERE playListId = 0
+      WHERE playListId = ?
       ORDER BY createdAt DESC
     ''';
-    List<Map<String, dynamic>> response = await SqlDb().readData(sql);
+    List<Object?> values = [playListId];
+    List<Map<String, dynamic>> response = await SqlDb().readData(sql,values: values);
     videos = response.map((video) => Video.fromMap(video)).toList();
     isLoading = false;
     update();

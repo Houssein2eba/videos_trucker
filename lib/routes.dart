@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:videos_trucker/controllers/playlists/create_play_list_controller.dart';
+import 'package:videos_trucker/controllers/playlists/get_play_list_vidoes_controller.dart';
 import 'package:videos_trucker/controllers/playlists/get_play_lists_controller.dart';
 import 'package:videos_trucker/controllers/videos/create_video_controller.dart';
 import 'package:videos_trucker/controllers/videos/edit_video_controller.dart';
@@ -7,6 +8,7 @@ import 'package:videos_trucker/controllers/videos/get_videos_controller.dart';
 import 'package:videos_trucker/views/home.dart';
 import 'package:videos_trucker/views/playlists/create.dart';
 import 'package:videos_trucker/views/playlists/index.dart';
+import 'package:videos_trucker/views/playlists/show.dart';
 import 'package:videos_trucker/views/videos/create.dart';
 import 'package:videos_trucker/views/videos/edit.dart';
 import 'package:videos_trucker/views/videos/index.dart';
@@ -18,6 +20,7 @@ class Routes {
   static const String editVideo = '/edit-video';
   static const String playlistsHome = '/playlists-home';
   static const String createPlaylist = '/create-playlist';
+  static const String singlePlayListVideo = '/single-playlist-video';
 
   static List<GetPage> getPages() {
     return [
@@ -59,7 +62,14 @@ class Routes {
         binding: BindingsBuilder(() {
           Get.lazyPut(() => CreatePlayListController());
         })
-      )
+      ),
+      GetPage(
+        name: singlePlayListVideo,
+        page: () => const SinglePlayListVideo(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => GetPlayListVidoesController());
+        }),
+      ),
       
     ];
   }
